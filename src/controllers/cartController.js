@@ -88,7 +88,7 @@ export const removeCartItem = async (req, res) => {
     }
 
     cart.items = cart.items.filter(
-      (item) => item.product.toString() === productId,
+      (item) => item.product.toString() !== productId,
     );
 
     await cart.save();
@@ -106,10 +106,10 @@ export const getCart = async (req, res) => {
       "items.product",
     );
     if (!cart) {
-      return res.json({ items: [] });
+      return res.json({ cart: { items: [] } });
     }
 
-    res.status(201).json({ message: "Cart fetched successfuly", cart });
+    res.status(200).json({ message: "Cart fetched successfuly", cart });
   } catch (error) {
     res
       .status(500)
